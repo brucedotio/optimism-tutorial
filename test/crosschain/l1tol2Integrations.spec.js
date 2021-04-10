@@ -30,17 +30,18 @@ describe(`testing L1/L2 contract interaction`, () => {
   const l1_provider = new JsonRpcProvider('http://localhost:9545')
   const l2_provider = new JsonRpcProvider('http://localhost:8545')
 
-  //first account
+  //ACCOUNTS
+  //first account L1
   const l1_key = "0x754fde3f5e60ef2c7649061e06957c29017fe21032a8017132c0078e37f6193a"
   const l1_wallet_1 = new ethers.Wallet(l1_key)
   const l1_account_1 = l1_wallet_1.connect(l1_provider)
 
-
+  //seconds account L1
   const l2_key = "0x754fde3f5e60ef2c7649061e06957c29017fe21032a8017132c0078e37f6193a"
   const l2_wallet_1 = new ethers.Wallet(l2_key)
   const l2_account_1 = l2_wallet_1.connect(l2_provider)
 
-  //2nd account
+  //first account L2
   const l2_key_2 = "0xd2ab07f7c10ac88d5f86f1b4c1035d5195e81f27dbe62ad65e59cbf88205629b"
   const l2_wallet_2 = new ethers.Wallet(l2_key_2)
   const l2_account_2 = l2_wallet_2.connect(l2_provider)
