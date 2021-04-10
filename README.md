@@ -1,17 +1,49 @@
 # The UnOfficial™ crosschain Optimism demo
 Had a working demo for previous tutorial, quickly "converted" it to work with new tutorial version. Better understand how chains are setup and communicate, the current tutorials don't interact.
 
-- added l1tol2Integrations.spec.js
+code: ./test/crosschain/l1tol2Integrations.spec.js
+
+````makeitgo
+
+*** first have local optimism-integration running ***
+
+git clone https://github.com/brucedotio/optimism-tutorial.git
+cd optimism-tutorial
+yarn install && yarn test:optimism
+
+````
+
+````verify
+
+  testing L1/L2 contract interaction
+    checking contract base interactions
+      √ contracts should be created on correct chains
+      √ init L2 deposit contract with L1 [Account 1] (54ms)
+      √ approve erc20, verify L1 [Account 1] balance 10000000 (237ms)
+      √ deposit to gateway contract, verify L1 [Account 1] balance 9999990 (644ms)
+      √ L2 [Account 1] has balance of 10 (5043ms)
+      √ L2 [Account 2] has balance 0
+      √ L2 [Account 1] transfer to L2 [Account 2] (113ms)
+
+  7 passing (12s)
+
+````
+
+
+### detail
+- added ./test/crosschain/l1tol2Integrations.spec.js
+- added ./contracts/L2DepositedERC20.sol
+- added ./contracts/L1ERC20Gateway.sol
 - removed hardhat deploy
 - reverted newer packages, new ones broke crosschain example
 - broke erc20.spec.js, xchain test does all of these I think
 
 - todo/fix
 - should be able to use @eth-optimism/contracts instead of explicitly adding contracts & interfaces to directory
-- removing ovm contracts from contracts directory results in Error because they dont get compiled and placed into artifacts directory
+- removing ovm contracts from contracts directory results in Error because they dont get compiled and placed in hardhat artifacts directory
 - HardhatError: HH700: Artifact for contract "L2DepositedERC20-ovm" not found.
-- should be able to fix, read this etc etc https://hardhat.org/guides/compile-contracts.html
-- then delete contracts which aren't needed
+- should be able to fix w\ hardhat knowledge https://hardhat.org/guides/compile-contracts.html
+- then delete contracts
 
 ## Prerequisite Software
 
