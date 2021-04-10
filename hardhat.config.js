@@ -1,13 +1,18 @@
 require('@nomiclabs/hardhat-ethers')
 require('@nomiclabs/hardhat-waffle')
-require('hardhat-deploy')
+require('@eth-optimism/plugins/hardhat/compiler')
+require('@eth-optimism/plugins/hardhat/ethers')
 
 module.exports = {
   networks: {
     hardhat: {
       accounts: {
-        mnemonic: 'test test test test test test test test test test test junk'
+        url: 'http://127.0.0.1:9545',
       }
+    },
+    optimism: {
+      url: 'http://127.0.0.1:8545',
+      ovm: true // this set the network as using the ovm and ensure contract will be compiled against that.
     }
   },
   solidity: '0.7.6',
@@ -16,5 +21,5 @@ module.exports = {
   },
   namedAccounts: {
     deployer: 0
-  },
+  }
 }

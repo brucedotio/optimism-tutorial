@@ -1,12 +1,17 @@
-# The Official™ Optimism Tutorial
+# The UnOfficial™ crosschain Optimism demo
+Had a working demo for previous tutorial, quickly "converted" it to work with new tutorial version. Better understand how chains are setup and communicate, the current tutorials don't interact.
 
-This tutorial is an introduction to the process of developing applications on Optimistic Ethereum.
-We'll take you through the process of compiling, testing, and deploying a smart contract.
+- added l1tol2Integrations.spec.js
+- removed hardhat deploy
+- reverted newer packages, new ones broke crosschain example
+- broke erc20.spec.js, xchain test does all of these I think
 
-This tutorial aims to highlight the similarities and differences between Ethereum and Optimistic Ethereum.
-To that end, we've set the tutorial up so that you'll perform the same compile/test/deploy process on both systems at the same time.
-This is *not* necessary for you to build an application on Optimistic Ethereum -- it's purely to give a side-by-side comparison.
-With that said, let's dive in!
+- todo/fix
+- should be able to use @eth-optimism/contracts instead of explicitly adding contracts & interfaces to directory
+- removing ovm contracts from contracts directory results in Error because they dont get compiled and placed into artifacts directory
+- HardhatError: HH700: Artifact for contract "L2DepositedERC20-ovm" not found.
+- should be able to fix, read this etc etc https://hardhat.org/guides/compile-contracts.html
+- then delete contracts which aren't needed
 
 ## Prerequisite Software
 

@@ -4,18 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf ./cache-ovm ./cache ./artifacts-ovm ./artifacts ./deployments"
+    "clean": "rimraf ./cache-ovm ./cache ./artifacts-ovm ./artifacts ./deployments",
+    "test:hardhat": "hardhat --network hardhat test ./test/erc20.spec.js",
+    "test:optimism": "hardhat --network hardhat test ./test/crosschain/l1tol2Integrations.spec.js"
   },
   "devDependencies": {
-    "@eth-optimism/dev": "^1.1.1",
-    "@eth-optimism/plugins": "latest",
+    "@eth-optimism/dev": "^1.0.0",
+    "@eth-optimism/plugins": "^0.0.20",
     "@nomiclabs/hardhat-ethers": "^2.0.1",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "chai": "^4.2.0",
+    "chai": "^4.2.14",
     "ethereum-waffle": "^3.2.1",
     "ethers": "^5.0.24",
     "hardhat": "^2.0.7",
-    "hardhat-deploy": "^0.7.0-beta.49",
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "@eth-optimism/contracts": "^0.1.11",
+    "@eth-optimism/watcher": "^0.0.1-alpha.9"
   }
 }
