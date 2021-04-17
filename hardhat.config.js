@@ -13,6 +13,8 @@ module.exports = {
     optimism: {
       url: 'http://127.0.0.1:8545',
       ovm: true // this set the network as using the ovm and ensure contract will be compiled against that.
+      //above isnt used, network is passed in via --network flag n hardhat commands
+      //configured tests and deploys to not rely on the passed --network flag
     }
   },
   solidity: '0.7.6',
@@ -21,5 +23,8 @@ module.exports = {
   },
   namedAccounts: {
     deployer: 0
+  },
+  mocha: {
+    timeout: 60000
   }
 }

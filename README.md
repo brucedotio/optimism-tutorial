@@ -1,49 +1,67 @@
-# The UnOfficial™ crosschain Optimism demo
-Had a working demo for previous tutorial, quickly "converted" it to work with new tutorial version. Better understand how chains are setup and communicate, the current tutorials don't interact.
+# The UnOfficial™ crosschain Optimism Demo
+* Simple Demo based on [ethereum-optimism](https://github.com/ethereum-optimism/integration-tests)
+* First have [optimism-integration](https://github.com/ethereum-optimism/optimism-integration) running locally
 
-code: ./test/crosschain/l1tol2Integrations.spec.js
-
-````makeitgo
-
-*** first have local optimism-integration running ***
+````txt
 
 git clone https://github.com/brucedotio/optimism-tutorial.git
 cd optimism-tutorial
-yarn install && yarn test:optimism
+yarn install && yarn test
 
 ````
 
 ````verify
+$ hardhat --network hardhat test
 
   testing L1/L2 contract interaction
     checking contract base interactions
-      √ contracts should be created on correct chains
-      √ init L2 deposit contract with L1 [Account 1] (54ms)
-      √ approve erc20, verify L1 [Account 1] balance 10000000 (237ms)
-      √ deposit to gateway contract, verify L1 [Account 1] balance 9999990 (644ms)
-      √ L2 [Account 1] has balance of 10 (5043ms)
-      √ L2 [Account 2] has balance 0
-      √ L2 [Account 1] transfer to L2 [Account 2] (113ms)
+      √ should be deployed to correct chains
+      √ should init L2 deposit contract with L1 [Account 1] (80ms)
+      √ should approve erc20, verify L1 [Account 1] balance 10000000 (119ms)
+      √ should deposit to gateway contract, verify L1 [Account 1] balance 9999990 (4384ms)
+      √ should L2 [Account 1] has balance of 10
+      √ should L2 [Account 2] has balance 0
+      √ should L2 [Account 1] transfer to L2 [Account 2] (104ms)
 
-  7 passing (12s)
+  Test send/rec msgs from/to L1/L2
+    Testing send message across L1/L2
+      √ should be deployed to correct chains
+      √ should send msg L1 --> L2 (4523ms)
+      √ should send msg L2 --> l1 [needs work] (20364ms)
+
+  Test ERC20 on L1 (ethereum)
+    √ should be deployed to correct chain
+    √ should have a name (42ms)
+    √ should have a total supply equal to the initial supply
+    √ should give the initial supply to the creator's address
+    transfer(...)
+      √ should revert when the sender does not have enough balance (180ms)
+      √ should succeed when the sender has enough balance (134ms)
+    transferFrom(...)
+      √ should revert when the sender does not have enough of an allowance (56ms)
+      √ should succeed when the owner has enough balance and the sender has a large enough allowance (248ms)
+
+  Test ERC20 on L2 (optimism)
+    √ should be deployed to correct chain
+    √ should have a name
+    √ should have a total supply equal to the initial supply
+    √ should give the initial supply to the creator's address
+    transfer(...)
+      √ should revert when the sender does not have enough balance (63ms)
+      √ should succeed when the sender has enough balance (4219ms)
+    transferFrom(...)
+      √ should revert when the sender does not have enough of an allowance (116ms)
+      √ should succeed when the owner has enough balance and the sender has a large enough allowance (222ms)
+
+  26 passing (57s)
+
+Done in 63.25s.
 
 ````
 
-
-### detail
-- added ./test/crosschain/l1tol2Integrations.spec.js
-- added ./contracts/L2DepositedERC20.sol
-- added ./contracts/L1ERC20Gateway.sol
-- removed hardhat deploy
-- reverted newer packages, new ones broke crosschain example
-- broke erc20.spec.js, xchain test does all of these I think
-
-- todo/fix
-- should be able to use @eth-optimism/contracts instead of explicitly adding contracts & interfaces to directory
-- removing ovm contracts from contracts directory results in Error because they dont get compiled and placed in hardhat artifacts directory
-- HardhatError: HH700: Artifact for contract "L2DepositedERC20-ovm" not found.
-- should be able to fix w\ hardhat knowledge https://hardhat.org/guides/compile-contracts.html
-- then delete contracts
+### TODO
+* shouldn't need to include contracts/optimism, force hardhat to include
+* should send msg L2 --> l1 [needs work], intermittent failure
 
 ## Prerequisite Software
 

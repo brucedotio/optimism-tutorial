@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf ./cache-ovm ./cache ./artifacts-ovm ./artifacts ./deployments",
-    "test:hardhat": "hardhat --network hardhat test ./test/erc20.spec.js",
-    "test:optimism": "hardhat --network hardhat test ./test/crosschain/l1tol2Integrations.spec.js"
+    "test": "hardhat --network hardhat test",
+    "test:optimism": "hardhat --network hardhat test ./test/crosschain/SendMessage.spec.js ./test/crosschain/l1tol2Integrations.spec.js"
   },
   "devDependencies": {
     "@eth-optimism/dev": "^1.0.0",

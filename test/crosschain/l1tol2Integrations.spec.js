@@ -49,7 +49,7 @@ describe(`testing L1/L2 contract interaction`, () => {
   before(`deploy and init ERC20 L1 + L2 contracts`, async () => {
 
     //create factory for ERC20 contract on L1 with l1_account_1 account
-    const Factory__ERC20 = await ethers.getContractFactory('ERC20')
+    const Factory__ERC20 = await ethers.getContractFactory('ERC20_A')
 
     ERC20_L1 = await Factory__ERC20.connect(l1_account_1).deploy(
       INITIAL_SUPPLY,
@@ -93,7 +93,7 @@ describe(`testing L1/L2 contract interaction`, () => {
 
   describe(`checking contract base interactions`, () => {
 
-    it(`contracts should be created on correct chains`, async () => {
+    it(`should be deployed to correct chains`, async () => {
 
        //check chains to ensure the correct chainId
        expect(ERC20_L1.deployTransaction.chainId).to.equal(31337)
@@ -109,7 +109,7 @@ describe(`testing L1/L2 contract interaction`, () => {
 
     })
 
-    it(`init L2 deposit contract with L1 [Account 1]`, async () => {
+    it(`should init L2 deposit contract with L1 [Account 1]`, async () => {
        try {
         const initGateway = await DepositedERC20_L2.init(GatewayERC20_L1.address)
         //   console.log("gateway init " + initGateway.hash)
@@ -119,36 +119,38 @@ describe(`testing L1/L2 contract interaction`, () => {
        }
     })
 
-    it(`approve erc20, verify L1 [Account 1] balance 10000000`, async () => {
+    it(`should approve erc20, verify L1 [Account 1] balance 10000000`, async () => {
        const approveTx = await ERC20_L1.approve(GatewayERC20_L1.address, 10)
        await approveTx.wait()
        const l1_balance = await ERC20_L1.balanceOf(l1_wallet_1.address)
        expect(l1_balance.toNumber()).to.equal(10000000)
     })
 
-    it(`deposit to gateway contract, verify L1 [Account 1] balance 9999990`, async () => {
+    it(`should deposit to gateway contract, verify L1 [Account 1] balance 9999990`, async () => {
         const gasLimit = await GatewayERC20_L1.DEFAULT_FINALIZE_DEPOSIT_L2_GAS()
         const depositTx = await GatewayERC20_L1.deposit(10, {gasLimit: gasLimit})
-        await depositTx.wait()
-    //    console.log('Deposit: ' + depositTx.hash)
+
         const l1_balance = await ERC20_L1.balanceOf(l1_wallet_1.address)
         expect(l1_balance.toNumber()).to.equal(9999990)
+
+        //Wait for the transaction to be included on L2
+        //this allows tx to be included for next test
+        //which verifies L2 balance has updated
+        const messageHashes = await watcher.getMessageHashesFromL1Tx(depositTx.hash)
+        expect(messageHashes.length).to.equal(1)
+        let l2txrec = await watcher.getL2TransactionReceipt(messageHashes[0])
 
     })
 
 
-    it(`L2 [Account 1] has balance of 10`, async () => {
-      //todo add timetravel, intermittent failure without sleep or
-      //assume it tax some amount of time to finalize on L2,
-      //might be a way to check for this...
-      await sleep(5000)
+    it(`should L2 [Account 1] has balance of 10`, async () => {
+      //relies waiting for L2 tx to complete
       const l2_balance = await DepositedERC20_L2.balanceOf(l2_wallet_1.address)
       expect(l2_balance.toNumber()).to.equal(10)
     })
 
 
-    it(`L2 [Account 2] has balance 0`, async () => {
-      //todo add timetravel, intermittent failure without sleep.
+    it(`should L2 [Account 2] has balance 0`, async () => {
       try{
         const l2_balance = await DepositedERC20_L2.balanceOf(l2_wallet_2.address)
         expect(l2_balance.toNumber()).to.equal(0)
@@ -159,7 +161,7 @@ describe(`testing L1/L2 contract interaction`, () => {
 
     })
 
-    it(`L2 [Account 1] transfer to L2 [Account 2]`, async () => {
+    it(`should L2 [Account 1] transfer to L2 [Account 2]`, async () => {
 
       try {
         //DepositedERC20_L2 is connected to l2_account_1 on L2,
@@ -174,18 +176,6 @@ describe(`testing L1/L2 contract interaction`, () => {
       }
 
     })
-
-    /*
-    //TODO
-    //Create msg send based on OVMBase + SimpleStorage contracts
-    it(`send arbitrary msg from l1 to l2 example`, async () => {
-
-    })
-
-    it(`send arbitrary msg from l2 to l1 example`, async () => {
-
-    })
-    */
 
   })
 
