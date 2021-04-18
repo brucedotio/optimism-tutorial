@@ -1,9 +1,15 @@
 # The UnOfficial™ crosschain Optimism Demo
 * Simple Demo based on [ethereum-optimism](https://github.com/ethereum-optimism/integration-tests)
-* First have [optimism-integration](https://github.com/ethereum-optimism/optimism-integration) running locally
+* Must have [optimism-integration](https://github.com/ethereum-optimism/optimism-integration) running locally
 
 ````txt
 
+terminal #1 (optimism integration)
+git clone https://github.com/ethereum-optimism/optimism-integration.git
+cd optimism-integration
+./up.sh
+
+terminal #2 (optimism test)
 git clone https://github.com/brucedotio/optimism-tutorial.git
 cd optimism-tutorial
 yarn install && yarn test
