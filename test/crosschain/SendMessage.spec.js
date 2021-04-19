@@ -19,8 +19,6 @@ describe(`Test send/rec msgs from/to L1/L2 `, () => {
   const TOKEN_NAME = 'L1/L2 Deployed Optimistic ERC20'
   //Optimism Constants
   const L1_MESSENGER_ADDRESS = '0x6418E5Da52A3d7543d393ADD3Fa98B0795d27736'
-  //const L1_MESSENGER_ADDRESS = '0x5bD12f0B56C8973ac98446435E07Df8311Aa362c'
-  //0x59b670e9fA9D0A427751Af201D676719a970857b
   const L2_MESSENGER_ADDRESS = '0x4200000000000000000000000000000000000007'
   const ADDRESSMANAGER_ADDRESS = '0x3e4CFaa8730092552d9425575E49bB542e329981'
 
@@ -61,18 +59,6 @@ describe(`Test send/rec msgs from/to L1/L2 `, () => {
 
     //create factory for ERC20 contract on L1 with l1_account_1 account
     try {
-      /*
-      const addressManagerInterface = getContractInterface('Lib_AddressManager')
-
-      ADDRESS_MANAGER_L1 = new ethers.Contract(
-        ADDRESSMANAGER_ADDRESS,
-        addressManagerInterface,
-        l1_provider
-      )
-      ADDRESS_MANAGER_GLOBAL = ADDRESS_MANAGER_L1
-      */
-    //  const addressManagerInterface = getContractInterface('iOVM_L1CrossDomainMessenger')
-    //  const addressManagerInterface = getContractInterface('iOVM_L2CrossDomainMessenger')
 
       L1CrossDomainMessenger = new ethers.Contract(
         L1_MESSENGER_ADDRESS,
